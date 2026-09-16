@@ -13,10 +13,23 @@ from fuerza_bruta import fuerza_bruta
 from voraz import voraz
 from backtracking import backtracking
 
-from ordenamiento import quicksort_cursos
-from busqueda import busqueda_binaria_curso
-from grafos import construir_grafo_conflictos, mostrar_conflictos_grafo
-
+from ordenamiento import (
+    quicksort_cursos,
+    bubble_sort_cursos,
+    selection_sort_cursos,
+    insertion_sort_cursos,
+    merge_sort_cursos,
+    heap_sort_cursos
+)
+from busqueda import (
+    busqueda_binaria_curso,
+    busqueda_lineal_curso
+)
+from grafos import (
+    construir_grafo_conflictos,
+    mostrar_conflictos_grafo,
+    coloreado_horarios_grafo
+)
 
 # ============================================================
 # COLORES PARA LA CONSOLA
@@ -609,39 +622,88 @@ def comparar_algoritmos():
     )
 
 # ============================================================
-# QUICKSORT DE CURSOS
+# ORDENAMIENTO DE CURSOS
 # ============================================================   
 
 def ejecutar_ordenamiento():
-    encabezado("ORDENAMIENTO DE CURSOS (QUICKSORT)")
-    cursos_ordenados = quicksort_cursos(cursos, clave="nombre")
-    print(f"\n{Colores.AZUL}Cursos ordenados por nombre usando QuickSort:{Colores.RESET}\n")
+    encabezado("ORDENAMIENTO DE CURSOS")
+    print(f"\n{Colores.AMARILLO}Seleccione el algoritmo de ordenamiento:{Colores.RESET}")
+    print("1. QuickSort (Divide y Vencerás)")
+    print("2. MergeSort")
+    print("3. HeapSort")
+    print("4. BubbleSort")
+    print("5. InsertionSort")
+    print("6. SelectionSort")
+    
+    opc = input(f"\n{Colores.AMARILLO}Opción (1-6): {Colores.RESET}").strip()
+    
+    if opc == "1":
+        cursos_ordenados = quicksort_cursos(cursos, clave="nombre")
+        nombre_alg = "QuickSort"
+    elif opc == "2":
+        cursos_ordenados = merge_sort_cursos(cursos, clave="nombre")
+        nombre_alg = "MergeSort"
+    elif opc == "3":
+        cursos_ordenados = heap_sort_cursos(cursos, clave="nombre")
+        nombre_alg = "HeapSort"
+    elif opc == "4":
+        cursos_ordenados = bubble_sort_cursos(cursos, clave="nombre")
+        nombre_alg = "BubbleSort"
+    elif opc == "5":
+        cursos_ordenados = insertion_sort_cursos(cursos, clave="nombre")
+        nombre_alg = "InsertionSort"
+    elif opc == "6":
+        cursos_ordenados = selection_sort_cursos(cursos, clave="nombre")
+        nombre_alg = "SelectionSort"
+    else:
+        mensaje_error("Opción inválida. Usando QuickSort por defecto.")
+        cursos_ordenados = quicksort_cursos(cursos, clave="nombre")
+        nombre_alg = "QuickSort"
+        
+    print(f"\n{Colores.AZUL}Cursos ordenados por nombre usando {nombre_alg}:{Colores.RESET}\n")
     for curso in cursos_ordenados:
         print(f"  {Colores.VERDE}●{Colores.RESET} {curso.nombre}")
 
 # ============================================================
-# BUSQUEDA BINARIA DE CURSOS
+# COMPARACIÓN DE BÚSQUEDAS DE CURSOS
 # ============================================================
 
 def ejecutar_busqueda():
-    encabezado("BÚSQUEDA BINARIA DE CURSOS")
+    encabezado("COMPARACIÓN DE ALGORITMOS DE BÚSQUEDA")
     nombre_buscado = input(f"\n{Colores.AMARILLO}Ingrese el nombre exacto del curso a buscar: {Colores.RESET}")
-    cursos_ordenados = quicksort_cursos(cursos, clave="nombre")
-    resultado = busqueda_binaria_curso(cursos_ordenados, nombre_buscado)
     
-    if resultado:
-        mensaje_exito(f"Curso encontrado: {resultado.nombre}")
+    # 1. Búsqueda Lineal
+    res_lineal = busqueda_lineal_curso(cursos, nombre_buscado)
+    
+    # 2. Búsqueda Binaria (requiere lista previamente ordenada)
+    cursos_ordenados = quicksort_cursos(cursos, clave="nombre")
+    res_binaria = busqueda_binaria_curso(cursos_ordenados, nombre_buscado)
+    
+    print(f"\n{Colores.CYAN}[1] Búsqueda Lineal O(N):{Colores.RESET}")
+    if res_lineal:
+        mensaje_exito(f"Encontrado: {res_lineal.nombre}")
     else:
-        mensaje_error(f"El curso '{nombre_buscado}' no fue encontrado.")
+        mensaje_error("No encontrado")
+        
+    print(f"\n{Colores.CYAN}[2] Búsqueda Binaria O(log N):{Colores.RESET}")
+    if res_binaria:
+        mensaje_exito(f"Encontrado: {res_binaria.nombre}")
+    else:
+        mensaje_error("No encontrado")
 
 # ============================================================
-# GRAFOS DE CONFLICTOS
+# GRAFOS DE CONFLICTOS Y COLORACIÓN
 # ============================================================
     
 def ejecutar_grafos():
-    encabezado("GRAFO DE CONFLICTOS POTENCIALES")
+    encabezado("GRAFO DE CONFLICTOS Y COLORACIÓN DE HORARIOS")
     grafo = construir_grafo_conflictos(cursos, horarios)
     mostrar_conflictos_grafo(grafo)
+    
+    print(f"\n{Colores.AMARILLO}--- Asignación de Bloques Horarios (Coloración de Grafos) ---{Colores.RESET}")
+    colores = coloreado_horarios_grafo(grafo)
+    for curso, bloque in colores.items():
+        print(f"  {Colores.VERDE}●{Colores.RESET} Curso '{curso}' -> Bloque Horario #{bloque}")
 
 # ============================================================
 # MENU PRINCIPAL

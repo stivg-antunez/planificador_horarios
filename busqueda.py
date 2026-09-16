@@ -1,3 +1,14 @@
+def busqueda_lineal_curso(cursos, nombre_buscado):
+    """
+    Realiza una búsqueda lineal sobre una lista de objetos Curso.
+    Devuelve el objeto Curso si lo encuentra, o None si no existe.
+    Complejidad: O(N)
+    """
+    for curso in cursos:
+        if curso.nombre.lower() == nombre_buscado.lower():
+            return curso
+    return None
+
 def busqueda_binaria_curso(cursos_ordenados, nombre_buscado):
     """
     Realiza una búsqueda binaria sobre una lista de cursos previamente ordenada por nombre.
