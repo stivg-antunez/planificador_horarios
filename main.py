@@ -13,6 +13,10 @@ from fuerza_bruta import fuerza_bruta
 from voraz import voraz
 from backtracking import backtracking
 
+from ordenamiento import quicksort_cursos
+from busqueda import busqueda_binaria_curso
+from grafos import construir_grafo_conflictos, mostrar_conflictos_grafo
+
 
 # ============================================================
 # COLORES PARA LA CONSOLA
@@ -604,6 +608,40 @@ def comparar_algoritmos():
         f"{Colores.RESET}"
     )
 
+# ============================================================
+# QUICKSORT DE CURSOS
+# ============================================================   
+
+def ejecutar_ordenamiento():
+    encabezado("ORDENAMIENTO DE CURSOS (QUICKSORT)")
+    cursos_ordenados = quicksort_cursos(cursos, clave="nombre")
+    print(f"\n{Colores.AZUL}Cursos ordenados por nombre usando QuickSort:{Colores.RESET}\n")
+    for curso in cursos_ordenados:
+        print(f"  {Colores.VERDE}●{Colores.RESET} {curso.nombre}")
+
+# ============================================================
+# BUSQUEDA BINARIA DE CURSOS
+# ============================================================
+
+def ejecutar_busqueda():
+    encabezado("BÚSQUEDA BINARIA DE CURSOS")
+    nombre_buscado = input(f"\n{Colores.AMARILLO}Ingrese el nombre exacto del curso a buscar: {Colores.RESET}")
+    cursos_ordenados = quicksort_cursos(cursos, clave="nombre")
+    resultado = busqueda_binaria_curso(cursos_ordenados, nombre_buscado)
+    
+    if resultado:
+        mensaje_exito(f"Curso encontrado: {resultado.nombre}")
+    else:
+        mensaje_error(f"El curso '{nombre_buscado}' no fue encontrado.")
+
+# ============================================================
+# GRAFOS DE CONFLICTOS
+# ============================================================
+    
+def ejecutar_grafos():
+    encabezado("GRAFO DE CONFLICTOS POTENCIALES")
+    grafo = construir_grafo_conflictos(cursos, horarios)
+    mostrar_conflictos_grafo(grafo)
 
 # ============================================================
 # MENU PRINCIPAL
@@ -760,7 +798,7 @@ def mostrar_menu():
     print(
         f"{Colores.CYAN}║"
         f"{Colores.AMARILLO}"
-        "  COMPARACIÓN"
+        "  COMPARACIÓN Y OTRAS FUNCIONES ADICIONALES"
         f"{Colores.RESET}"
         "                                            "
         f"{Colores.CYAN}║"
@@ -772,6 +810,33 @@ def mostrar_menu():
         f"{Colores.BLANCO}"
         "  [9] Comparar los tres algoritmos"
         "                       "
+        f"{Colores.CYAN}║"
+        f"{Colores.RESET}"
+    )
+
+    print(
+        f"{Colores.CYAN}║"
+        f"{Colores.BLANCO}"
+        "  [10] Ordenar cursos"
+        "                        "
+        f"{Colores.CYAN}║"
+        f"{Colores.RESET}"
+    )
+
+    print(
+        f"{Colores.CYAN}║"
+        f"{Colores.BLANCO}"
+        "  [11] Buscar curso"
+        "                   "
+        f"{Colores.CYAN}║"
+        f"{Colores.RESET}"
+    )
+
+    print(
+        f"{Colores.CYAN}║"
+        f"{Colores.BLANCO}"
+        "  [12] Ver Grafo de Conflictos"
+        "                          "
         f"{Colores.CYAN}║"
         f"{Colores.RESET}"
     )
@@ -884,6 +949,27 @@ def main():
             comparar_algoritmos()
             pausar()
 
+        elif opcion == "10":
+
+            limpiar_pantalla()
+            mostrar_titulo()
+            ejecutar_ordenamiento()
+            pausar()
+
+        elif opcion == "11":
+
+            limpiar_pantalla()
+            mostrar_titulo()
+            ejecutar_busqueda()
+            pausar()
+
+        elif opcion == "12":
+
+            limpiar_pantalla()
+            mostrar_titulo()
+            ejecutar_grafos()
+            pausar()
+
         elif opcion == "0":
 
             limpiar_pantalla()
@@ -911,7 +997,7 @@ def main():
 
             print(
                 f"{Colores.AMARILLO}"
-                "Seleccione una opción del 0 al 9."
+                "Seleccione una opción del 0 al 12."
                 f"{Colores.RESET}"
             )
 
