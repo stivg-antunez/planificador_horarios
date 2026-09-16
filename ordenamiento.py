@@ -3,17 +3,17 @@ import heapq
 def quicksort_cursos(cursos, clave="nombre"):
     """
     Ordena una lista de objetos Curso utilizando el algoritmo QuickSort.
-    Soporta ordenar por 'nombre' o 'alumnos'.
+    Soporta ordenar por 'nombre' o 'estudiantes'.
     """
     if len(cursos) <= 1:
         return cursos
     
     pivote = cursos[len(cursos) // 2]
     
-    if clave == "alumnos":
-        izq = [x for x in cursos if x.alumnos < pivote.alumnos]
-        centro = [x for x in cursos if x.alumnos == pivote.alumnos]
-        der = [x for x in cursos if x.alumnos > pivote.alumnos]
+    if clave == "estudiantes":
+        izq = [x for x in cursos if x.estudiantes < pivote.estudiantes]
+        centro = [x for x in cursos if x.estudiantes == pivote.estudiantes]
+        der = [x for x in cursos if x.estudiantes > pivote.estudiantes]
     else:
         izq = [x for x in cursos if x.nombre < pivote.nombre]
         centro = [x for x in cursos if x.nombre == pivote.nombre]
@@ -23,7 +23,7 @@ def quicksort_cursos(cursos, clave="nombre"):
 
 def bubble_sort_cursos(cursos, clave="nombre"):
     """Ordenamiento por Burbuja. Complejidad: O(N^2)"""
-    lista = cursos.copy()
+    lista = list(cursos)
     n = len(lista)
     for i in range(n):
         for j in range(0, n - i - 1):
@@ -33,10 +33,9 @@ def bubble_sort_cursos(cursos, clave="nombre"):
                 lista[j], lista[j + 1] = lista[j + 1], lista[j]
     return lista
 
-
 def selection_sort_cursos(cursos, clave="nombre"):
     """Ordenamiento por Selección. Complejidad: O(N^2)"""
-    lista = cursos.copy()
+    lista = list(cursos)
     n = len(lista)
     for i in range(n):
         min_idx = i
@@ -46,10 +45,9 @@ def selection_sort_cursos(cursos, clave="nombre"):
         lista[i], lista[min_idx] = lista[min_idx], lista[i]
     return lista
 
-
 def insertion_sort_cursos(cursos, clave="nombre"):
     """Ordenamiento por Inserción. Complejidad: O(N^2)"""
-    lista = cursos.copy()
+    lista = list(cursos)
     for i in range(1, len(lista)):
         elem_actual = lista[i]
         j = i - 1
@@ -58,7 +56,6 @@ def insertion_sort_cursos(cursos, clave="nombre"):
             j -= 1
         lista[j + 1] = elem_actual
     return lista
-
 
 def merge_sort_cursos(cursos, clave="nombre"):
     """Ordenamiento por Mezcla (MergeSort). Complejidad: O(N log N)"""
@@ -80,7 +77,6 @@ def merge_sort_cursos(cursos, clave="nombre"):
     resultado.extend(izq[i:])
     resultado.extend(der[j:])
     return resultado
-
 
 def heap_sort_cursos(cursos, clave="nombre"):
     """Ordenamiento HeapSort. Complejidad: O(N log N)"""
